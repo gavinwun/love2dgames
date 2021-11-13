@@ -36,7 +36,7 @@ function love.draw()
     love.graphics.printf(
         'Hello Pong!',
         0,
-        VIRTUAL_HEIGHT / 2 - 6,
+        20,
         VIRTUAL_WIDTH,
         'center'
     )
