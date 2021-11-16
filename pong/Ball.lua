@@ -12,6 +12,24 @@ function Ball:init(x, y, width, height)
     self.dy = math.random(-50, 50)
 end
 
+function Ball:collides(paddle)
+    -- AABB Collision Detection
+    -- check if left edge of either is farther to the right
+    -- than the right edge of the other
+    if self.x > paddle.x + paddle.width or paddle.x > self.x + self.width then
+        return false
+    end
+
+    -- check if bottom edge of either is higher than the top
+    -- edge of the other
+    if self.y > paddle.y + paddle.height or paddle.y > self.y + self.height then
+        return false
+    end
+
+    -- collision detected
+    return true
+end
+
 -- set the initial position of the ball
 function Ball:reset(v_width, v_height)
     self.x = v_width / 2 - 2
