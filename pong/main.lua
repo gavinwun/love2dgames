@@ -22,6 +22,8 @@ PADDLE_SPEED = 200
 function love.load()
     love.graphics.setDefaultFilter('nearest', 'nearest')
 
+    love.window.setTitle('Pong')
+
     -- seed the RNG so that calls to random are always random
     -- use time to make it different every time the game starts
     math.randomseed(os.time())
@@ -115,6 +117,14 @@ function love.draw()
 
     ball:render()
 
+    displayFPS()
+
     -- end rendering virtual res
     push:apply('end')
+end
+
+function displayFPS()
+    love.graphics.setFont(smallFont)
+    love.graphics.setColor(0, 255/255, 0, 255/255)
+    love.graphics.print('FPS: ' .. tostring(love.timer.getFPS()), 10, 10)
 end
