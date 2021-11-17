@@ -79,7 +79,7 @@ function love.update(dt)
             end
         end
 
-        -- detect uuper and lower screen boundary collision and reverse if collided
+        -- detect upper and lower screen boundary collision and reverse if collided
         if ball.y <= 0 then
             ball.y = 0
             ball.dy = -ball.dy
@@ -90,6 +90,22 @@ function love.update(dt)
             ball.y = VIRTUAL_HEIGHT - 4
             ball.dy = -ball.dy
         end
+    end
+
+    -- detect ball is at edge of screen
+    -- go back to start and update the score
+    if ball.x < 0 then
+        servingPlayer = 1
+        player2Score = player2Score + 1
+        ball:reset(VIRTUAL_WIDTH, VIRTUAL_HEIGHT)
+        gameState = 'start'
+    end
+
+    if ball.x > VIRTUAL_WIDTH then
+        servingPlayer = 2
+        player1Score = player1Score + 1
+        ball:reset(VIRTUAL_WIDTH, VIRTUAL_HEIGHT)
+        gameState = 'start'
     end
 
     -- player 1 controls
