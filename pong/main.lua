@@ -34,6 +34,13 @@ function love.load()
     scoreFont = love.graphics.newFont('font.ttf', 32)
     love.graphics.setFont(smallFont)
 
+    -- setup sound effects
+    sounds = {
+        ['paddle_hit'] = love.audio.newSource('sounds/paddle_hit.wav', 'static'),
+        ['score'] = love.audio.newSource('sounds/score.wav', 'static'),
+        ['wall_hit'] = love.audio.newSource('sounds/wall_hit.wav', 'static')
+    }
+
     push:setupScreen(VIRTUAL_WIDTH, VIRTUAL_HEIGHT, WINDOW_WIDTH, WINDOW_HEIGHT, {
         fullscreen = false,
         resizable = false,
@@ -68,6 +75,8 @@ function love.update(dt)
         -- detect ball collision with paddles, reversing dx if true and
         -- slightly increasing it, then altering the dy based on the position of collision
         if ball:collides(player1) then
+            sounds['paddle_hit']:play()
+
             ball.dx = -ball.dx * 1.03
             ball.x = player1.x + 5
 
@@ -79,6 +88,8 @@ function love.update(dt)
             end
         end
         if ball:collides(player2) then
+            sounds['paddle_hit']:play()
+
             ball.dx = -ball.dx * 1.03
             ball.x = player2.x - 4
 
@@ -92,12 +103,16 @@ function love.update(dt)
 
         -- detect upper and lower screen boundary collision and reverse if collided
         if ball.y <= 0 then
+            sounds['wall_hit']:play()
+
             ball.y = 0
             ball.dy = -ball.dy
         end
 
         -- -4 to account for the ball's size
         if ball.y >= VIRTUAL_HEIGHT - 4 then
+            sounds['wall_hit']:play()
+
             ball.y = VIRTUAL_HEIGHT - 4
             ball.dy = -ball.dy
         end
@@ -105,6 +120,8 @@ function love.update(dt)
         -- detect ball is at edge of screen
         -- go back to start and update the score
         if ball.x < 0 then
+            sounds['score']:play()
+
             servingPlayer = 1
             player2Score = player2Score + 1
 
@@ -119,6 +136,8 @@ function love.update(dt)
         end
 
         if ball.x > VIRTUAL_WIDTH then
+            sounds['score']:play()
+            
             servingPlayer = 2
             player1Score = player1Score + 1
             
